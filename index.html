@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Antariksa Cilik - Belajar Tata Surya</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts untuk font komik/lucu -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: radial-gradient(circle, #1a103c 0%, #070412 100%);
+            overflow-x: hidden;
+        }
+        .font-kids {
+            font-family: 'Fredoka One', cursive;
+        }
+        /* Efek bintang-bintang di latar belakang */
+        .stars {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            opacity: 0.5;
+            z-index: 0;
+        }
+        /* Animasi mengorbit pelan untuk dekorasi */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+        }
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        /* Scrollbar kustom ceria */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #110c26;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff5e97;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen relative flex flex-col justify-between">
+    <div class="stars"></div>
+
+    <!-- Header / Navbar Utama -->
+    <header class="relative z-10 w-full px-6 py-4 flex flex-wrap justify-between items-center bg-indigo-950/60 backdrop-blur-md border-b-4 border-pink-500">
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="gantiMenu('beranda')">
+            <!-- Logo Roket SVG -->
+            <svg class="w-10 h-10 text-yellow-300 floating-element" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12,2A10,10,0,0,0,2,12a10,10,0,0,0,10,10,10,10,0,0,0,10,-10A10,10,0,0,0,12,2Zm3,8a3,3,0,1,1,-3,-3A3,3,0,0,1,15,10Z"/>
+                <path d="M12,4c-4.41,0-8,3.59-8,8a7.91,7.91,0,0,0,1.35,4.41L12,6.83l6.65,9.58A7.91,7.91,0,0,0,20,12C20,7.59,16.41,4,12,4Z" fill="#ff4b5c"/>
+            </svg>
+            <span class="font-kids text-2xl tracking-wide bg-gradient-to-r from-yellow-300 via-pink-400 to-cyan-300 bg-clip-text text-transparent">
+                Antariksa Cilik
+            </span>
+        </div>
+
+        <nav class="flex space-x-2 mt-2 sm:mt-0">
+            <button onclick="gantiMenu('jelajah')" class="nav-btn bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full shadow-lg border-b-4 border-pink-700 transition duration-150 transform hover:-translate-y-0.5 active:translate-y-1">
+                🚀 Jelajah Planet
+            </button>
+            <button onclick="gantiMenu('kuis')" class="nav-btn bg-yellow-400 hover:bg-yellow-500 text-purple-950 font-bold py-2 px-4 rounded-full shadow-lg border-b-4 border-yellow-600 transition duration-150 transform hover:-translate-y-0.5 active:translate-y-1">
+                ⭐ Kuis Seru
+            </button>
+            <button onclick="gantiMenu('lagu')" class="nav-btn bg-cyan-400 hover:bg-cyan-500 text-purple-950 font-bold py-2 px-4 rounded-full shadow-lg border-b-4 border-cyan-600 transition duration-150 transform hover:-translate-y-0.5 active:translate-y-1">
+                🎵 Bernyanyi
+            </button>
+        </nav>
+    </header>
+
+    <!-- Konten Utama -->
+    <main class="relative z-10 flex-grow container mx-auto px-4 py-8 flex flex-col justify-center">
+        
+        <!-- ================= HALAMAN BERANDA ================= -->
+        <section id="menu-beranda" class="text-center max-w-4xl mx-auto space-y-8">
+            <div class="relative inline-block">
+                <span class="absolute -top-12 -left-12 text-6xl floating-element">👽</span>
+                <span class="absolute -bottom-12 -right-12 text-6xl floating-element" style="animation-delay: 2s">🛸</span>
+                <h1 class="font-kids text-4xl sm:text-6xl text-yellow-300 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] leading-tight">
+                    Halo Kapten Cilik!<br>Mari Jelajahi Tata Surya!
+                </h1>
+            </div>
+            
+            <p class="text-lg sm:text-2xl text-cyan-200 max-w-2xl mx-auto font-medium">
+                Pilih petualanganmu hari ini untuk mengenal Matahari dan teman-teman planet yang sangat indah!
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+                <!-- Kartu Jelajah -->
+                <div onclick="gantiMenu('jelajah')" class="bg-gradient-to-b from-purple-800 to-indigo-950 p-6 rounded-3xl border-4 border-pink-400 cursor-pointer transform hover:scale-105 transition-all duration-300 shadow-2xl group">
+                    <span class="text-7xl block mb-4 group-hover:animate-bounce">🪐</span>
+                    <h3 class="font-kids text-2xl text-pink-300 mb-2">Jelajah Planet</h3>
+                    <p class="text-sm text-gray-300">Sentuh planet-planet lucu dan dengarkan kisah ajaib mereka!</p>
+                </div>
+
+                <!-- Kartu Kuis -->
+                <div onclick="gantiMenu('kuis')" class="bg-gradient-to-b from-purple-800 to-indigo-950 p-6 rounded-3xl border-4 border-yellow-400 cursor-pointer transform hover:scale-105 transition-all duration-300 shadow-2xl group">
+                    <span class="text-7xl block mb-4 group-hover:animate-bounce">✨</span>
+                    <h3 class="font-kids text-2xl text-yellow-300 mb-2">Kuis Bintang</h3>
+                    <p class="text-sm text-gray-300">Tebak nama planet dan kumpulkan banyak bintang berkilau!</p>
+                </div>
+
+                <!-- Kartu Lagu -->
+                <div onclick="gantiMenu('lagu')" class="bg-gradient-to-b from-purple-800 to-indigo-950 p-6 rounded-3xl border-4 border-cyan-400 cursor-pointer transform hover:scale-105 transition-all duration-300 shadow-2xl group">
+                    <span class="text-7xl block mb-4 group-hover:animate-bounce">🎼</span>
+                    <h3 class="font-kids text-2xl text-cyan-300 mb-2">Lagu Planet</h3>
+                    <p class="text-sm text-gray-300">Bernyanyi lagu planet yang asyik dengan musik gembira!</p>
+                </div>
+            </div>
+
+            <!-- Panduan Suara Robot -->
+            <div class="bg-indigo-900/50 p-4 rounded-2xl max-w-lg mx-auto border border-indigo-700 flex items-center space-x-4">
+                <span class="text-4xl">🤖</span>
+                <div class="text-left text-sm">
+                    <p class="font-bold text-yellow-300">Robot "Kiko" berkata:</p>
+                    <p class="text-gray-300">"Aktifkan suara di HP/Laptopmu ya, supaya kita bisa mengobrol bersama!"</p>
+                    <button onclick="putarSuara('Halo Kapten Cilik! Nama saya Kiko. Ayo kita belajar tata surya bersama-sama!')" class="mt-2 bg-purple-600 hover:bg-purple-700 text-xs text-white py-1 px-3 rounded-full flex items-center gap-1 font-bold">
+                        🔊 Dengar Kiko Bicara
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= HALAMAN JELAJAH PLANET ================= -->
+        <section id="menu-jelajah" class="hidden space-y-8">
+            <div class="text-center">
+                <h2 class="font-kids text-3xl sm:text-5xl text-pink-400">Peta Tata Surya Kita</h2>
+                <p class="text-sm sm:text-base text-gray-300">Klik Matahari atau Planet untuk mulai berkenalan!</p>
+            </div>
+
+            <!-- Wrapper Orbit & Planet (Scrollable Secara Horizontal di Mobile) -->
+            <div class="overflow-x-auto pb-6 pt-4 flex justify-start lg:justify-center items-center min-h-[320px] px-4 whitespace-nowrap gap-4 md:gap-8 bg-black/30 rounded-3xl border border-indigo-900">
+                
+                <!-- MATAHARI -->
+                <div onclick="pilihPlanet('matahari')" class="inline-block text-center cursor-pointer transform hover:scale-110 transition duration-300">
+                    <div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-r from-yellow-400 via-red-500 to-orange-500 shadow-[0_0_50px_rgba(239,68,68,0.8)] flex items-center justify-center border-4 border-yellow-300 relative floating-element">
+                        <span class="text-6xl">🌞</span>
+                    </div>
+                    <p class="font-kids text-lg text-yellow-300 mt-2">Matahari</p>
+                    <span class="text-xs bg-red-600 text-white px-2 py-0.5 rounded-full font-bold">Pusat</span>
+                </div>
+
+                <!-- MERKURIUS -->
+                <div onclick="pilihPlanet('merkurius')" class="inline-block text-center cursor-pointer transform hover:scale-110 transition duration-300">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-400 shadow-[0_0_15px_rgba(156,163,175,0.5)] flex items-center justify-center border-4 border-gray-300 relative">
+                        <span class="text-3xl">🪨</span>
+                    </div>
+                    <p class="font-kids text-sm text-gray-300 mt-2">Merkurius</p>
+                    <span class="text-[10px] bg-slate-600 text-white px-2 py-0.5 rounded-full">Planet 1</span>
+                </div>
+
+                <!-- VENUS -->
+                <div onclick="pilihPlanet('venus')" class="inline-block text-center cursor-pointer transform hover:scale-110 transition duration-300">
+                    <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-tr from-yellow-600 to-yellow-300 shadow-[0_0_20px_rgba(234,179,8,0.6)] flex items-center justify-center border-4 border-yellow-500 relative">
+                        <span class="text-4xl">🌕</span>
+                    </div>
+                    <p class="font-kids text-sm text-yellow-400 mt-2">Venus</p>
+                    <span class="text-[10px] bg-yellow-700 text-white px-2 py-0.5 rounded-full">Planet 2</span>
+                </div>
+
+                <!-- BUMI -->
+                <div onclick="pilihPlanet('bumi')" class="inline-block text-center cursor-pointer transform hover:scale-110 transition duration-300">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-tr from-blue-600 to-green-500 shadow-[0_0_25px_rgba(59,130,246,0.6)] flex items-center justify-center border-4 border-blue-400 relative">
+                        <span class="text-5xl">🌍</span>
+                    </div>
+                    <p class="font-kids text-sm text-blue-400 mt-2">Bumi kita</p>
+                    <span class="text-[10px] bg-blue-700 text-white px-2 py-0.5 rounded-full">Planet 3</span>
+                </div>
+
+                <!-- MARS -->
+                <div onclick="pilihPlanet('mars')" class="inline-block text-center cursor-pointer transform hover:scale-110 transition duration-300">
+                    <div class="w-20 h-20 md:w-22 md:h-22 rounded-full bg-gradient-to-tr from-red-700 to-orange-500 shadow-[0_0_20px_rgba(239,68,68,0.6)] flex items-center justify-center border-4 border-red-500 relative">
+                        <span class="text-4xl">🔴</span>
+                    </div>
+                    <p class="font-kids text-sm text-red-400 mt-2">Mars</p>
+                    <span class="text-[10px] bg-red-700 text-white px-2 py-0.5 rounded-full">Planet 4</span>
+                </div>
+
+                <!-- JUPITER -->
+                <div onclick="pilihPlanet('jupiter')" class="inline-block text-center cursor-pointer transform hover:scale-110 transition duration-300">
+                    <div class="w-28 h-28 md:w-32 md:h-32 rounded-full bg-gradient-to-tr from-amber-600 via-orange-400 to-amber-800 shadow-[0_0_30px_rgba(217,119,6,0.6)] flex items-center justify-center border-4 border-amber-500 relative">
+                        <span class="text-6xl">🟠</span>
+                    </div>
+                    <p class="font-kids text-sm text-amber-400 mt-2">Jupiter</p>
+                    <span class="text-[10px] bg-amber-700 text-white px-2 py-0.5 rounded-full">Planet 5</span>
+                </div>
+
+                <!-- SATURNUS -->
+                <div onclick="pilihPlanet('saturnus')" class="inline-block text-center cursor-pointer transform hover:scale-110 transition duration-300">
+                    <div class="w-28 h-28 md:w-32 md:h-32 rounded-full flex items-center justify-center relative">
+                        <!-- Efek cincin manual dengan SVG -->
+                        <svg class="absolute w-36 h-36 md:w-44 md:h-44 pointer-events-none" viewBox="0 0 100 100">
+                            <ellipse cx="50" cy="50" rx="45" ry="12" fill="none" stroke="#fcd34d" stroke-width="4" transform="rotate(-15 50 50)" opacity="0.8"/>
+                        </svg>
+                        <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-tr from-yellow-500 to-yellow-200 border-4 border-yellow-300 flex items-center justify-center">
+                            <span class="text-5xl">🪐</span>
+                        </div>
+                    </div>
+                    <p class="font-kids text-sm text-yellow-300 mt-2">Saturnus</p>
+                    <span class="text-[10px] bg-yellow-600 text-white px-2 py-0.5 rounded-full">Planet 6</span>
+                </div>
+
+                <!-- URANUS -->
+                <div onclick="pilihPlanet('uranus')" class="inline-block text-center cursor-pointer transform hover:scale-110 transition duration-300">
+                    <div class="w-22 h-22 md:w-26 md:h-26 rounded-full bg-gradient-to-tr from-teal-500 to-cyan-300 shadow-[0_0_25px_rgba(34,211,238,0.5)] flex items-center justify-center border-4 border-cyan-400 relative">
+                        <span class="text-4xl">🌐</span>
+                    </div>
+                    <p class="font-kids text-sm text-cyan-300 mt-2">Uranus</p>
+                    <span class="text-[10px] bg-cyan-700 text-white px-2 py-0.5 rounded-full">Planet 7</span>
+                </div>
+
+                <!-- NEPTUNUS -->
+                <div onclick="pilihPlanet('neptunus')" class="inline-block text-center cursor-pointer transform hover:scale-110 transition duration-300">
+                    <div class="w-22 h-22 md:w-26 md:h-26 rounded-full bg-gradient-to-tr from-blue-900 to-indigo-500 shadow-[0_0_25px_rgba(30,58,138,0.6)] flex items-center justify-center border-4 border-blue-700 relative">
+                        <span class="text-4xl">🔵</span>
+                    </div>
+                    <p class="font-kids text-sm text-indigo-400 mt-2">Neptunus</p>
+                    <span class="text-[10px] bg-indigo-700 text-white px-2 py-0.5 rounded-full">Planet 8</span>
+                </div>
+
+            </div>
+
+            <!-- PANEL DETAIL PLANET YANG DIPILIH -->
+            <div id="panel-detail" class="bg-indigo-950/80 max-w-2xl mx-auto rounded-3xl border-4 border-pink-400 p-6 md:p-8 shadow-2xl relative">
+                <div class="absolute -top-6 right-6 bg-pink-500 text-white px-4 py-1 rounded-full text-xs font-bold animate-pulse">
+                    Klik Speaker Untuk Suara 🔊
+                </div>
+                
+                <div id="detail-kosong" class="text-center py-8">
+                    <span class="text-5xl block mb-2">👈</span>
+                    <h3 class="font-kids text-xl text-yellow-300">Ketuk salah satu planet di atas untuk berkenalan!</h3>
+                </div>
+
+                <div id="detail-konten" class="hidden flex flex-col md:flex-row items-center gap-6">
+                    <!-- Visual Besar -->
+                    <div id="detail-visual" class="w-32 h-32 md:w-40 md:h-40 flex items-center justify-center text-7xl md:text-8xl bg-indigo-900/60 rounded-full border-4 border-pink-300 floating-element">
+                        🪐
+                    </div>
+                    
+                    <!-- Keterangan -->
+                    <div class="flex-1 space-y-3 text-center md:text-left">
+                        <div class="flex flex-col md:flex-row items-center md:items-baseline justify-between gap-2">
+                            <h3 id="detail-nama" class="font-kids text-3xl text-yellow-300">Planet</h3>
+                            <button id="btn-suara" onclick="suarakanDetail()" class="bg-yellow-400 hover:bg-yellow-500 text-purple-950 p-2 rounded-full shadow-md transition duration-150 transform active:scale-95">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm2,14.5a.5.5,0,0,1-.5.5H11a.5.5,0,0,1-.5-.5V13H9.5a.5.5,0,0,1-.5-.5V11.5a.5.5,0,0,1,.5-.5h1V7.5a.5.5,0,0,1,.5-.5h2.5a.5.5,0,0,1,.5.5V11h1a.5.5,0,0,1,.5.5V12.5a.5.5,0,0,1-.5.5H14Z" opacity=".1"/><path d="M5.89,15.5H4a1,1,0,0,1-1-1V9.5a1,1,0,0,1,1-1H5.89L11,4.39a1,1,0,0,1,1.66.73v13.76A1,1,0,0,1,11,19.61ZM17,12a4,4,0,0,0-2.3-3.61a1,1,0,0,0-.8,1.82A2,2,0,0,1,15,12a2,2,0,0,1-1.1,1.79,1,1,0,0,0,.8,1.82A4,4,0,0,0,17,12Zm3.8,0A7.89,7.89,0,0,0,17,5a1,1,0,0,0-.8,1.82,5.89,5.89,0,0,1,2.9,5.18,5.89,5.89,0,0,1-2.9,5.18,1,1,0,0,0,.8,1.82A7.89,7.89,0,0,0,20.8,12Z"/></svg>
+                            </button>
+                        </div>
+                        <p id="detail-sifat" class="text-pink-300 font-bold text-sm tracking-widest uppercase">Ciri khas</p>
+                        <p id="detail-deskripsi" class="text-gray-200 text-sm md:text-base leading-relaxed">
+                            Penjelasan ramah anak.
+                        </p>
+                        <div class="bg-indigo-900/40 p-3 rounded-xl border border-indigo-800 text-xs text-cyan-200">
+                            <strong>Fakta Lucu Kiko:</strong> <span id="detail-fakta">Fakta menarik planet.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= HALAMAN KUIS BINTANG ================= -->
+        <section id="menu-kuis" class="hidden max-w-2xl mx-auto space-y-6">
+            <div class="text-center">
+                <h2 class="font-kids text-3xl sm:text-4xl text-yellow-300">Tantangan Kuis Bintang! ⭐</h2>
+                <p class="text-gray-300 text-sm">Ayo tebak pertanyaan di bawah ini untuk mengumpulkan bintang emas!</p>
+            </div>
+
+            <!-- Papan Skor Bintang -->
+            <div class="bg-purple-900/60 p-4 rounded-2xl flex justify-between items-center border-2 border-yellow-400 shadow-lg">
+                <div class="flex items-center space-x-2">
+                    <span class="text-3xl animate-bounce">⭐</span>
+                    <span class="font-kids text-xl text-yellow-300">Bintangmu: <span id="skor-bintang">0</span></span>
+                </div>
+                <div class="text-xs text-purple-200">
+                    Pertanyaan: <span id="nomor-soal">1</span>/5
+                </div>
+            </div>
+
+            <!-- Kotak Soal -->
+            <div class="bg-indigo-950/90 rounded-3xl border-4 border-yellow-400 p-6 md:p-8 shadow-2xl relative overflow-hidden">
+                <!-- Hiasan UFO -->
+                <div class="absolute -top-4 -right-4 text-4xl opacity-20">🛸</div>
+                
+                <div class="space-y-6">
+                    <!-- Visual Pendukung Soal -->
+                    <div id="visual-soal" class="w-32 h-32 mx-auto flex items-center justify-center text-7xl bg-indigo-900/50 rounded-full border-4 border-indigo-700 floating-element">
+                        ❓
+                    </div>
+
+                    <!-- Pertanyaan -->
+                    <h3 id="teks-soal" class="font-kids text-xl md:text-2xl text-center text-white leading-snug">
+                        Memuat pertanyaan menarik...
+                    </h3>
+
+                    <!-- Tombol Suara Soal -->
+                    <div class="text-center">
+                        <button onclick="suarakanSoalAktif()" class="bg-purple-600 hover:bg-purple-700 text-xs py-1 px-3 rounded-full inline-flex items-center gap-1 font-bold">
+                            🔊 Dengar Pertanyaan
+                        </button>
+                    </div>
+
+                    <!-- Pilihan Jawaban -->
+                    <div id="pilihan-jawaban" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <!-- Diisi otomatis oleh JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Hasil Kuis (Pop up jika selesai) -->
+            <div id="modal-hasil" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 hidden">
+                <div class="bg-indigo-900 border-4 border-yellow-400 rounded-3xl max-w-md w-full p-6 text-center space-y-6 shadow-2xl">
+                    <span class="text-8xl block">🏆</span>
+                    <h3 class="font-kids text-3xl text-yellow-300">Hebat, Kapten Cilik!</h3>
+                    <p class="text-lg text-gray-200">Kamu berhasil menyelesaikan kuis tata surya dengan mengumpulkan:</p>
+                    <div class="flex justify-center items-center gap-2">
+                        <span class="text-5xl animate-bounce">⭐</span>
+                        <span id="hasil-bintang" class="font-kids text-5xl text-yellow-300">0</span>
+                        <span class="text-3xl text-yellow-200">Bintang!</span>
+                    </div>
+                    <p class="text-sm text-cyan-200">Kamu adalah penjelajah bintang sejati!</p>
+                    
+                    <div class="flex flex-col gap-2">
+                        <button onclick="ulangiKuis()" class="w-full bg-yellow-400 hover:bg-yellow-500 text-purple-950 font-bold py-3 px-6 rounded-full shadow-lg border-b-4 border-yellow-600">
+                            🔄 Main Lagi
+                        </button>
+                        <button onclick="gantiMenu('beranda')" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full shadow-lg border-b-4 border-pink-700">
+                            🏠 Kembali ke Beranda
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= HALAMAN BERNYANYI ================= -->
+        <section id="menu-lagu" class="hidden max-w-2xl mx-auto space-y-6">
+            <div class="text-center">
+                <h2 class="font-kids text-3xl sm:text-4xl text-cyan-300">🎵 Lagu Planet Gembira</h2>
+                <p class="text-gray-300 text-sm">Ayo bernyanyi bersama dengan nada lagu ceria "Balonku Ada Lima"!</p>
+            </div>
+
+            <!-- Papan Musik -->
+            <div class="bg-indigo-950/90 rounded-3xl border-4 border-cyan-400 p-6 shadow-2xl relative">
+                
+                <div class="text-center mb-6">
+                    <button id="btn-nyanyi" onclick="putarLagu()" class="bg-cyan-400 hover:bg-cyan-500 text-purple-950 font-kids text-xl py-3 px-8 rounded-full shadow-xl border-b-4 border-cyan-600 transition duration-150 transform hover:scale-105 active:scale-95 inline-flex items-center gap-2">
+                        <span id="ikon-lagu">▶️</span> <span id="label-lagu">Mulai Bernyanyi</span>
+                    </button>
+                </div>
+
+                <!-- Lirik Lagu Interaktif -->
+                <div class="space-y-4 max-h-[300px] overflow-y-auto p-4 bg-black/40 rounded-2xl border border-indigo-900 text-center text-lg leading-relaxed">
+                    <div class="lirik-baris py-1 font-bold text-yellow-300">🎵 LIRIK LAGU PLANET 🎵</div>
+                    <div class="lirik-baris py-1" id="lirik-1">Merkurius planet kesatu</div>
+                    <div class="lirik-baris py-1" id="lirik-2">Venus yang paling bersinar</div>
+                    <div class="lirik-baris py-1" id="lirik-3">Bumi tempat tinggal kita</div>
+                    <div class="lirik-baris py-1" id="lirik-4">Mars si planet merah</div>
+                    <div class="lirik-baris py-1 font-bold text-pink-400" id="lirik-dor">JUPITER PALING BESAR! (Dor!)</div>
+                    <div class="lirik-baris py-1" id="lirik-5">Saturnus punya cincin indah</div>
+                    <div class="lirik-baris py-1" id="lirik-6">Uranus dingin sekali</div>
+                    <div class="lirik-baris py-1" id="lirik-7">Neptunus planet terluar</div>
+                    <div class="lirik-baris py-1 text-cyan-300 font-bold" id="lirik-8">Semua ciptaan Tuhan!</div>
+                </div>
+
+                <p class="text-center text-xs text-gray-400 mt-4">
+                    Kiko akan menyanyikan baris per baris secara otomatis! Ikuti teks yang bercahaya ya.
+                </p>
+            </div>
+
+            <!-- Kartu Edukasi Tambahan -->
+            <div class="bg-indigo-900/40 p-4 rounded-2xl border border-indigo-800 flex items-center space-x-4">
+                <span class="text-4xl">💡</span>
+                <div class="text-left text-xs text-gray-300">
+                    <p class="font-bold text-cyan-300 mb-1">Tips untuk Ayah & Bunda:</p>
+                    <p>Ajak anak bertepuk tangan saat lirik "Dor!" pada bagian Jupiter untuk melatih motorik kasar dan menambah keceriaan!</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 w-full text-center py-4 bg-indigo-950/40 text-xs text-indigo-300 border-t border-indigo-900">
+        <p>© 2026 Petualangan Antariksa Cilik - Dibuat dengan ❤️ untuk Masa Depan Bangsa</p>
+    </footer>
+
+    <!-- Elemen Audio Tersembunyi untuk Efek Suara -->
+    <audio id="snd-benar" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA=="></audio>
+    <audio id="snd-salah" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA=="></audio>
+
+    <!-- JAVASCRIPT GAMEPLAY DAN LOGIKA -->
+    <script>
+        // Database Data Planet (Ramah Anak PAUD)
+        const dataPlanet = {
+            matahari: {
+                nama: "Matahari",
+                visual: "🌞",
+                sifat: "Pusat tata surya yang sangat panas!",
+                deskripsi: "Matahari adalah bintang raksasa yang sangat besar dan bersinar terang! Dia bertugas menerangi bumi di siang hari dan memberi kita kehangatan agar sehat.",
+                fakta: "Matahari itu super panas! Kita tidak boleh mendekat karena nanti bisa meleleh seperti es krim!",
+                suara: "Matahari. Dia adalah pusat tata surya kita yang sangat besar, panas, dan menyinari bumi setiap hari!"
+            },
+            merkurius: {
+                nama: "Merkurius",
+                visual: "🪨",
+                sifat: "Planet pertama & paling dekat matahari",
+                deskripsi: "Merkurius adalah planet yang paling kecil di dekat matahari. Karena sangat dekat, di sini sangat panas di siang hari dan dingin sekali di malam hari!",
+                fakta: "Merkurius berlari sangat cepat mengitari matahari dibanding planet lainnya!",
+                suara: "Merkurius. Planet paling kecil dan paling dekat dengan matahari!"
+            },
+            venus: {
+                nama: "Venus",
+                visual: "🌕",
+                sifat: "Planet paling terang & cantik",
+                deskripsi: "Venus disebut juga bintang kejora. Dia adalah planet paling cantik karena bersinar sangat terang di pagi hari, tapi udaranya sangat tebal dan panas!",
+                fakta: "Meskipun bukan yang paling dekat dengan matahari, Venus adalah planet paling panas di tata surya!",
+                suara: "Venus. Planet yang sangat terang dan paling panas di tata surya kita!"
+            },
+            bumi: {
+                nama: "Bumi",
+                visual: "🌍",
+                sifat: "Rumah kita yang indah",
+                deskripsi: "Bumi adalah tempat tinggal kita semua! Di sini ada udara segar untuk bernapas, air yang bersih untuk minum, hutan yang hijau, dan lautan biru yang luas.",
+                fakta: "Bumi adalah satu-satunya planet yang dihuni oleh manusia, hewan, dan tanaman lucu!",
+                suara: "Bumi. Tempat tinggal kita yang indah, penuh dengan air, udara, dan kehidupan!"
+            },
+            mars: {
+                nama: "Mars",
+                visual: "🔴",
+                sifat: "Planet merah si robot pemberani",
+                deskripsi: "Mars berwarna merah menyala karena tanahnya berkarat! Di sini banyak gunung berapi yang tinggi dan badai pasir raksasa. Banyak robot buatan ilmuwan dikirim ke sini lho!",
+                fakta: "Di Mars ada gunung terbesar di tata surya kita, namanya Gunung Olympus!",
+                suara: "Mars. Planet merah yang keren dan sering dikunjungi oleh robot penyelidik!"
+            },
+            jupiter: {
+                nama: "Jupiter",
+                visual: "🟠",
+                sifat: "Raksasa yang sangat besar",
+                deskripsi: "Jupiter adalah planet paling besar! Dia sangat baik karena ukuran raksasanya membantu melindungi planet kecil seperti bumi dari tabrakan batu luar angkasa.",
+                fakta: "Jupiter memiliki badai besar berbentuk seperti bintik merah raksasa yang sudah ada sejak ratusan tahun!",
+                suara: "Jupiter. Planet paling besar di tata surya kita!"
+            },
+            saturnus: {
+                nama: "Saturnus",
+                visual: "🪐",
+                sifat: "Planet yang memakai cincin cantik",
+                deskripsi: "Saturnus adalah planet tercantik karena memiliki cincin melingkar di perutnya! Cincin cantik itu terbuat dari miliaran butiran es dan batu yang berkilauan.",
+                fakta: "Saturnus sangat ringan! Jika ditaruh di dalam kolam air raksasa, dia bisa mengapung!",
+                suara: "Saturnus. Planet indah yang memakai cincin besar terbuat dari es dan batu!"
+            },
+            uranus: {
+                nama: "Uranus",
+                visual: "🌐",
+                sifat: "Raksasa es biru yang dingin",
+                deskripsi: "Uranus berwarna biru muda yang sangat cantik. Di sini sangat-sangat dingin karena letaknya yang jauh dari kehangatan matahari. Di sini juga berangin kencang!",
+                fakta: "Uranus berputar dengan cara miring, seperti bola menggelinding di atas meja!",
+                suara: "Uranus. Planet dingin berwarna biru yang berputar miring!"
+            },
+            neptunus: {
+                nama: "Neptunus",
+                visual: "🔵",
+                sifat: "Planet paling jauh & berangin badai",
+                deskripsi: "Neptunus adalah planet biru tua yang letaknya paling ujung. Di sini adalah tempat paling berangin badai di tata surya karena sangat dingin dan sunyi.",
+                fakta: "Satu tahun di Neptunus sangat lama, sama dengan seratus enam puluh lima tahun di Bumi!",
+                suara: "Neptunus. Planet biru tua yang letaknya paling jauh dari matahari!"
+            }
+        };
+
+        // Database Soal Kuis (Sesuai Kognitif PAUD, Fokus Visual & Karakteristik Menarik)
+        const databaseSoal = [
+            {
+                teks: "Manakah gambar Rumah kita atau Planet Bumi yang indah?",
+                visual: "❓",
+                pilihan: [
+                    { teks: "🌍 Bumi", benar: true, emoji: "🌍" },
+                    { teks: "🔴 Mars", benar: false, emoji: "🔴" },
+                    { teks: "🌕 Venus", benar: false, emoji: "🌕" }
+                ],
+                suara: "Manakah gambar Rumah kita atau Planet Bumi yang indah?"
+            },
+            {
+                teks: "Siapakah planet besar yang memakai cincin cantik di perutnya?",
+                visual: "❓",
+                pilihan: [
+                    { teks: "🪐 Saturnus", benar: true, emoji: "🪐" },
+                    { teks: "🪨 Merkurius", benar: false, emoji: "🪨" },
+                    { teks: "🌞 Matahari", benar: false, emoji: "🌞" }
+                ],
+                suara: "Siapakah planet besar yang memakai cincin cantik di perutnya?"
+            },
+            {
+                teks: "Planet apakah yang berwarna merah membara seperti api?",
+                visual: "❓",
+                pilihan: [
+                    { teks: "🔵 Neptunus", benar: false, emoji: "🔵" },
+                    { teks: "🔴 Mars", benar: true, emoji: "🔴" },
+                    { teks: "🌍 Bumi", benar: false, emoji: "🌍" }
+                ],
+                suara: "Planet apakah yang berwarna merah membara seperti api?"
+            },
+            {
+                teks: "Siapakah bintang raksasa yang menerangi bumi di siang hari?",
+                visual: "❓",
+                pilihan: [
+                    { teks: "🌞 Matahari", benar: true, emoji: "🌞" },
+                    { teks: "🟠 Jupiter", benar: false, emoji: "🟠" },
+                    { teks: "🌐 Uranus", benar: false, emoji: "🌐" }
+                ],
+                suara: "Siapakah bintang raksasa yang menerangi bumi di siang hari?"
+            },
+            {
+                teks: "Siapakah planet paling besar di tata surya kita?",
+                visual: "❓",
+                pilihan: [
+                    { teks: "🪨 Merkurius", benar: false, emoji: "🪨" },
+                    { teks: "🟠 Jupiter", benar: true, emoji: "🟠" },
+                    { teks: "🌕 Venus", benar: false, emoji: "🌕" }
+                ],
+                suara: "Siapakah planet paling besar di tata surya kita?"
+            }
+        ];
+
+        // Lirik Lagu Baris per Baris
+        const lirikLagu = [
+            { id: "lirik-1", teks: "Merkurius planet kesatu" },
+            { id: "lirik-2", teks: "Venus yang paling bersinar" },
+            { id: "lirik-3", teks: "Bumi tempat tinggal kita" },
+            { id: "lirik-4", teks: "Mars si planet merah" },
+            { id: "lirik-dor", teks: "Yupiter paling besar! dor!" },
+            { id: "lirik-5", teks: "Saturnus punya cincin indah" },
+            { id: "lirik-6", teks: "Uranus dingin sekali" },
+            { id: "lirik-7", teks: "Neptunus planet terluar" },
+            { id: "lirik-8", teks: "Semua ciptaan Tuhan!" }
+        ];
+
+        // State Aplikasi
+        let planetAktif = null;
+        let indeksSoalKuis = 0;
+        let skorKuis = 0;
+        let laguSedangDiputar = false;
+        let ttsLaguTimeout = null;
+
+        // Inisialisasi awal saat halaman selesai dimuat
+        window.onload = function() {
+            gantiMenu('beranda');
+        };
+
+        // Fungsi Navigasi Menu
+        function gantiMenu(menuId) {
+            // Sembunyikan semua section
+            document.getElementById('menu-beranda').classList.add('hidden');
+            document.getElementById('menu-jelajah').classList.add('hidden');
+            document.getElementById('menu-kuis').classList.add('hidden');
+            document.getElementById('menu-lagu').classList.add('hidden');
+
+            // Hentikan suara jika sedang memutar lagu/cerita
+            batalkanSemuaSuara();
+
+            // Tampilkan section pilihan
+            document.getElementById(`menu-${menuId}`).classList.remove('hidden');
+
+            // Inisialisasi ulang jika masuk kuis atau lagu
+            if (menuId === 'kuis') {
+                inisialisasiKuis();
+            } else if (menuId === 'lagu') {
+                resetLaguHighlight();
+            }
+        }
+
+        // --- SISTEM SUARA (Text-To-Speech Bahasa Indonesia) ---
+        function putarSuara(teks) {
+            if ('speechSynthesis' in window) {
+                // Batalkan suara aktif sebelum memutar suara baru
+                window.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(teks);
+                utterance.lang = 'id-ID'; // Set bahasa Indonesia
+                utterance.rate = 1.0; // Kecepatan bicara anak-anak
+                utterance.pitch = 1.2; // Pitch ceria ramah anak
+                window.speechSynthesis.speak(utterance);
+                return utterance;
+            } else {
+                console.log("Maaf, HP/Browser kamu belum mendukung suara.");
+            }
+        }
+
+        function batalkanSemuaSuara() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            if (ttsLaguTimeout) {
+                clearTimeout(ttsLaguTimeout);
+            }
+            laguSedangDiputar = false;
+            updateTombolLaguUI();
+        }
+
+        // --- LOGIKA JELAJAH PLANET ---
+        function pilihPlanet(idPlanet) {
+            planetAktif = dataPlanet[idPlanet];
+            
+            // Tampilkan detail panel
+            document.getElementById('detail-kosong').classList.add('hidden');
+            document.getElementById('detail-konten').classList.remove('hidden');
+
+            // Update konten detail
+            document.getElementById('detail-nama').innerText = planetAktif.nama;
+            document.getElementById('detail-visual').innerText = planetAktif.visual;
+            document.getElementById('detail-sifat').innerText = planetAktif.sifat;
+            document.getElementById('detail-deskripsi').innerText = planetAktif.deskripsi;
+            document.getElementById('detail-fakta').innerText = planetAktif.fakta;
+
+            // Beri warna border yang sesuai planet
+            const panel = document.getElementById('panel-detail');
+            panel.className = "bg-indigo-950/80 max-w-2xl mx-auto rounded-3xl border-4 p-6 md:p-8 shadow-2xl relative transition-all duration-300";
+            if (idPlanet === 'matahari') panel.classList.add('border-yellow-400');
+            else if (idPlanet === 'bumi') panel.classList.add('border-blue-400');
+            else if (idPlanet === 'mars') panel.classList.add('border-red-500');
+            else if (idPlanet === 'saturnus') panel.classList.add('border-amber-300');
+            else if (idPlanet === 'uranus' || idPlanet === 'neptunus') panel.classList.add('border-cyan-400');
+            else panel.classList.add('border-pink-400');
+
+            // Putar deskripsi planet otomatis
+            suarakanDetail();
+        }
+
+        function suarakanDetail() {
+            if (planetAktif) {
+                const teksBicara = `Ini ${planetAktif.nama}. ${planetAktif.suara}. Fakta serunya, ${planetAktif.fakta}`;
+                putarSuara(teksBicara);
+            }
+        }
+
+        // --- LOGIKA KUIS BINTANG ---
+        function inisialisasiKuis() {
+            indeksSoalKuis = 0;
+            skorKuis = 0;
+            document.getElementById('skor-bintang').innerText = skorKuis;
+            document.getElementById('modal-hasil').classList.add('hidden');
+            tampilkanSoalAktif();
+        }
+
+        function tampilkanSoalAktif() {
+            if (indeksSoalKuis >= databaseSoal.length) {
+                tampilkanHasilKuis();
+                return;
+            }
+
+            const soal = databaseSoal[indeksSoalKuis];
+            document.getElementById('nomor-soal').innerText = indeksSoalKuis + 1;
+            document.getElementById('teks-soal').innerText = soal.teks;
+            document.getElementById('visual-soal').innerText = soal.visual;
+
+            // Buat Pilihan Jawaban secara Dinamis
+            const containerJawaban = document.getElementById('pilihan-jawaban');
+            containerJawaban.innerHTML = '';
+
+            soal.pilihan.forEach(opsi => {
+                const btn = document.createElement('button');
+                btn.className = "bg-indigo-900 hover:bg-purple-800 border-2 border-indigo-700 hover:border-yellow-400 text-lg py-4 px-6 rounded-2xl font-bold flex items-center justify-center gap-3 transition duration-150 transform active:scale-95 text-white";
+                btn.innerHTML = `<span class="text-2xl">${opsi.emoji}</span> <span>${opsi.teks}</span>`;
+                btn.onclick = () => verifikasiJawaban(opsi.benar, btn, opsi.emoji);
+                containerJawaban.appendChild(btn);
+            });
+
+            // Otomatis bersuara pertanyaannya
+            suarakanSoalAktif();
+        }
+
+        function suarakanSoalAktif() {
+            const soal = databaseSoal[indeksSoalKuis];
+            putarSuara(soal.suara);
+        }
+
+        function verifikasiJawaban(apakahBenar, elemenTombol, emojiPlanet) {
+            // Kunci semua tombol agar anak tidak klik berkali-kali
+            const semuaTombol = document.getElementById('pilihan-jawaban').getElementsByTagName('button');
+            for (let t of semuaTombol) {
+                t.disabled = true;
+            }
+
+            const visualSoal = document.getElementById('visual-soal');
+
+            if (apakahBenar) {
+                skorKuis += 1;
+                document.getElementById('skor-bintang').innerText = skorKuis;
+                elemenTombol.classList.add('bg-green-600', 'border-green-400', 'text-white');
+                visualSoal.innerText = "🎉";
+                putarSuara("Hebat! Jawabanmu benar sekali!");
+                
+                // Efek animasi confetti kecil buatan sederhana
+                visualSoal.classList.add('animate-ping');
+                setTimeout(() => visualSoal.classList.remove('animate-ping'), 500);
+            } else {
+                elemenTombol.classList.add('bg-red-600', 'border-red-400', 'text-white');
+                visualSoal.innerText = "😢";
+                putarSuara("Oh oh, ayo coba lagi nanti!");
+            }
+
+            // Tampilkan visual yang benar sebagai pengganti tanda tanya
+            setTimeout(() => {
+                visualSoal.innerText = emojiPlanet;
+            }, 300);
+
+            // Beri jeda 3 detik sebelum masuk ke soal selanjutnya agar anak bisa mencerna
+            setTimeout(() => {
+                indeksSoalKuis += 1;
+                tampilkanSoalAktif();
+            }, 3000);
+        }
+
+        function tampilkanHasilKuis() {
+            document.getElementById('hasil-bintang').innerText = skorKuis;
+            document.getElementById('modal-hasil').classList.remove('hidden');
+            putarSuara(`Luar biasa! Kapten cilik berhasil mengumpulkan ${skorKuis} bintang emas! Kamu hebat sekali!`);
+        }
+
+        function ulangiKuis() {
+            inisialisasiKuis();
+        }
+
+
+        // --- LOGIKA BERNYANYI PLANET ---
+        function resetLaguHighlight() {
+            lirikLagu.forEach(item => {
+                const el = document.getElementById(item.id);
+                if (el) {
+                    el.className = "lirik-baris py-1 transition-all duration-300 text-gray-400 scale-95";
+                    if (item.id === "lirik-dor") el.classList.add('text-pink-600/50');
+                }
+            });
+        }
+
+        function updateTombolLaguUI() {
+            const btn = document.getElementById('btn-nyanyi');
+            const ikon = document.getElementById('ikon-lagu');
+            const label = document.getElementById('label-lagu');
+            if (laguSedangDiputar) {
+                ikon.innerText = "⏹️";
+                label.innerText = "Hentikan Lagu";
+                btn.className = "bg-red-500 hover:bg-red-600 text-white font-kids text-xl py-3 px-8 rounded-full shadow-xl border-b-4 border-red-700 transition duration-150 transform hover:scale-105 active:scale-95 inline-flex items-center gap-2";
+            } else {
+                ikon.innerText = "▶️";
+                label.innerText = "Mulai Bernyanyi";
+                btn.className = "bg-cyan-400 hover:bg-cyan-500 text-purple-950 font-kids text-xl py-3 px-8 rounded-full shadow-xl border-b-4 border-cyan-600 transition duration-150 transform hover:scale-105 active:scale-95 inline-flex items-center gap-2";
+            }
+        }
+
+        function putarLagu() {
+            if (laguSedangDiputar) {
+                batalkanSemuaSuara();
+                resetLaguHighlight();
+                return;
+            }
+
+            laguSedangDiputar = true;
+            updateTombolLaguUI();
+            nyanyikanBaris(0);
+        }
+
+        function nyanyikanBaris(indeks) {
+            if (!laguSedangDiputar) return;
+
+            if (indeks >= lirikLagu.length) {
+                // Selesai Bernyanyi
+                laguSedangDiputar = false;
+                updateTombolLaguUI();
+                putarSuara("Hore! Kita sudah selesai menyanyi! Bagus sekali suaramu!");
+                setTimeout(resetLaguHighlight, 2000);
+                return;
+            }
+
+            const baris = lirikLagu[indeks];
+            resetLaguHighlight();
+
+            // Sorot lirik aktif
+            const elAktif = document.getElementById(baris.id);
+            if (elAktif) {
+                if (baris.id === "lirik-dor") {
+                    elAktif.className = "lirik-baris py-2 font-kids text-3xl text-red-500 animate-bounce transition-all duration-300 scale-110";
+                } else if (baris.id === "lirik-8") {
+                    elAktif.className = "lirik-baris py-2 font-kids text-2xl text-cyan-300 transition-all duration-300 scale-105";
+                } else {
+                    elAktif.className = "lirik-baris py-2 font-bold text-2xl text-yellow-300 transition-all duration-300 scale-105";
+                }
+                
+                // Pastikan lirik tersorot masuk ke fokus scroll
+                elAktif.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            // Putar suara baris lirik tersebut
+            const ucapan = putarSuara(baris.teks);
+
+            // Jeda antar lirik disesuaikan dengan selesai ucapan baris tersebut
+            if (ucapan) {
+                ucapan.onend = function() {
+                    ttsLaguTimeout = setTimeout(() => {
+                        nyanyikanBaris(indeks + 1);
+                    }, 800); // Jeda sebelum baris berikutnya
+                };
+            } else {
+                // Fallback jika Speech Synthesis tidak aktif
+                ttsLaguTimeout = setTimeout(() => {
+                    nyanyikanBaris(indeks + 1);
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
